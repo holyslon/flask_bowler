@@ -1,35 +1,21 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from mock import Mock
+from mock import MagicMock, patch
 
 import flask
-from flask.ext.bower import register_commands, Install
+from flask.ext.bower import install
 
 
-class EqualToAnyObjectOfType:
+class InstallCommandTests(unittest.TestCase):
 
-    def __init__(self, target_type):
-        self.target_type = target_type
-
-    def __eq__(self, other):
-        return self.target_type == type(other)
-
-    def __ne__(self, other):
-        return self.target_type != type(other)
-
-
-def has_type(target_type):
-    return EqualToAnyObjectOfType(target_type)
-
-
-class RegisterCommandTest(unittest.TestCase):
-
-    def setUp(self):
-        self.manager = Mock()
-
-    def test_that_install_command_is_registred(self):
-        register_commands(self.manager)
-
-        self.manager.add_command.assert_called_with('install', has_type(Install))
-
+    def test_that_install_command_call_install_for_bower(self):
+        mock = MagicMock(return_value=0)
+        with patch('subprocess.call', mock) as call_mock:
+            assert install("bootstrap") is True
+            call_mock.assert_called_with([
+                "bower",
+                "install",
+                "--save",
+                "bootstrap"
+            ], cwd="static")

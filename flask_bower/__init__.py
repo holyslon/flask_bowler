@@ -2,10 +2,21 @@
 from __future__ import absolute_import
 from __future__ import with_statement
 
-from .install import Install
+from flask.ext.script import Manager
+from subprocess import call
 
-__all__ = ["Install", "register_commands"]
+__all__ = ["install"]
 
 
-def register_commands(manager):
-    manager.add_command('install', Install())
+manager = Manager()
+
+
+@manager.command
+def install(package):
+    call_result = call([
+        "bower",
+        "install",
+        "--save",
+        package
+    ], cwd="source")
+    return True if call_result else False
