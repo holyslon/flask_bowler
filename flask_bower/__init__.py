@@ -38,19 +38,21 @@ from bower import get_libraries, get_appication, get_files
 
 
 def get_assets_by_type(asset_type):
-    vendor_assets = Bundle(*get_libraries()[asset_type])
-    application_assets = Bundle(*[
-        create_asset(asset)
-        for asset in get_appication()[asset_type]
-    ], output='gen/full.'+asset_type)
-    return Bundle(vendor_assets, application_assets)
+    vendor_assets = get_libraries()
+    application_assets = get_appication()
+    return Bundle(Bundle(*(vendor_assets()[asset_type] if asset_type in vendor_assets else [])),
+                  Bundle(*[
+                      create_asset(asset)
+                      for asset in application_assets[asset_type]
+                  ], output='gen/full.'+asset_type) if asset_type in application_assets else Bundle())
 
 
 def get_assets_by_category_and_type(category, asset_type):
+    assets = get_files(category)
     return Bundle(*[
         create_asset(asset)
-        for asset in get_files("category")[asset_type]
-    ], output='gen/full.'+asset_type)
+        for asset in assets[asset_type]
+    ], output='gen/full.'+asset_type) if asset_type in assets else Bundle()
 
 
 def get_css_assets():
