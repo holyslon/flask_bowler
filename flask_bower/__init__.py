@@ -40,7 +40,7 @@ from bower import get_libraries, get_appication, get_files
 def get_assets_by_type(asset_type):
     vendor_assets = get_libraries()
     application_assets = get_appication()
-    return Bundle(Bundle(*(vendor_assets()[asset_type] if asset_type in vendor_assets else [])),
+    return Bundle(Bundle(*(vendor_assets[asset_type] if asset_type in vendor_assets else [])),
                   Bundle(*[
                       create_asset(asset)
                       for asset in application_assets[asset_type]
