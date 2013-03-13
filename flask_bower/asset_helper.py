@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 from flask.ext.assets import Bundle
 from flask_bower import filter_by_extension, assets_conversion_map
 from os import path

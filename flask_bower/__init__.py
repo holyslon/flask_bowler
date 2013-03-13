@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from flask.ext.assets import Bundle
-from asset_helper import create_asset
-from bower import get_libraries, get_appication, get_files
 import sys
 
 __all__ = ['get_css_assets',
@@ -33,6 +31,10 @@ def get_component_file_path():
 
 def get_assets_files():
     return [get_component_file_path()]
+
+
+from asset_helper import create_asset
+from bower import get_libraries, get_appication, get_files
 
 
 def get_assets_by_type(asset_type):
