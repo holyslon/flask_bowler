@@ -24,8 +24,6 @@ except ImportError:
     pass
 
 install_requires = ['Flask-Assets']
-if sys.version_info < (2, 7):
-    install_requires += ['argparse']
 
 setup(
     name='Flask-Bowler',
