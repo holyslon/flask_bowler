@@ -2,12 +2,12 @@
 Flask-Bowler
 --------------
 
-Scripts for Flask-Script to integrate with Twitter Bower
+Integration for Flask-Assets to automaticly discover all
+Bower packages and files as asset
 
 Links
 `````
 * `Twitter Bower <http://twitter.github.com/bower/>
-* `documentation <http://flask-script.readthedocs.org>`_
 
 
 """
@@ -23,7 +23,7 @@ try:
 except ImportError:
     pass
 
-install_requires = ['Flask-Script']
+install_requires = ['Flask-Assets']
 if sys.version_info < (2, 7):
     install_requires += ['argparse']
 
