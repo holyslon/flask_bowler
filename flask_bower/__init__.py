@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask.ext.assets import Bundle
-import sys
+import os
 
 __all__ = ['get_css_assets',
            'get_js_assets',
@@ -26,7 +26,7 @@ component_file_name = "component.json"
 
 
 def get_component_file_path():
-    return sys.path.join(static_files_folder, component_file_name)
+    return os.path.join(static_files_folder, component_file_name)
 
 
 def get_assets_files():
