@@ -27,7 +27,7 @@ install_requires = ['Flask-Assets']
 
 setup(
     name='Flask-Bowler',
-    version='0.0.1-dev',
+    version='0.0.2-dev',
     url='http://github.com/holyslon/flask_bower',
     license='BSD',
     author='Anton Onikiichuk',
