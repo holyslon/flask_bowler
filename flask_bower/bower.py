@@ -4,6 +4,7 @@ from flask_bower import assets_conversion_map, static_files_folder, get_componen
 from StringIO import StringIO
 from json import load
 from os import path
+from graph import Node, linerise_graph
 
 
 def read_bower_map():
@@ -87,15 +88,30 @@ def get_appication():
 
 
 def get_libraries():
-    components = [Component(name, sources, deps)
-                  for name, sources, deps in
-                  get_components(read_bower_map())]
-    components.sort()
+    c = list(get_components(read_bower_map()))
+    nodes = [(Node((name, files)), dep) for name, files, dep in c]
+
+    def get_node(nodes, node_name):
+        for n, _ in nodes:
+            if n.data[0] == node_name:
+                return n
+
+    for node, deps in nodes:
+        for dep in deps:
+            parent = get_node(nodes, dep)
+            parent.add(node)
+
+    res = list(linerise_graph([n for n, d in nodes if len(d) == 0]))
+
     return {
-        "css": [item
-                for comp in components
-                for item in comp.getCssAssetss()],
-        "js": [item
-               for comp in components
-               for item in comp.getJsAssetss()]
+        "css": [
+            item
+            for comp in res
+            for item in comp.data[1] if item.endswith(".css")
+        ],
+        "js": [
+            item
+            for comp in res
+            for item in comp.data[1] if item.endswith(".js")
+        ]
     }
